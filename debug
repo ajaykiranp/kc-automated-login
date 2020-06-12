@@ -1,0 +1,97 @@
+Hi,
+
+I am facing below issue. Request you to help me resolve it. Please email me the fix (ajaykiranp@gmail.com)
+I have done debug using,
+logging.basicConfig(level=logging.DEBUG)
+
+
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): api.kite.trade:443
+DEBUG:urllib3.connectionpool:https://api.kite.trade:443 "GET /quote/ltp?i=NSE%3AINFY HTTP/1.1" 400 109
+Logging in...
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): kite.zerodha.com:443
+DEBUG:urllib3.connectionpool:https://kite.zerodha.com:443 "POST /api/login HTTP/1.1" 200 None
+DEBUG:urllib3.connectionpool:https://kite.zerodha.com:443 "POST /api/twofa HTTP/1.1" 200 42
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): kite.trade:443
+DEBUG:urllib3.connectionpool:https://kite.trade:443 "GET /connect/login?api_key=326djwt408pggtui HTTP/1.1" 302 None
+DEBUG:urllib3.connectionpool:https://kite.zerodha.com:443 "GET /connect/login?api_key=326djwt408pggtui HTTP/1.1" 302 0
+DEBUG:urllib3.connectionpool:https://kite.zerodha.com:443 "GET /connect/login?api_key=326djwt408pggtui&sess_id=AzgXiIdtLmPN1tkdB1AJtbzsNXHs7rBe HTTP/1.1" 302 0
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): 127.0.0.1:443
+Traceback (most recent call last):
+  File "login_test.py", line 61, in <module>
+    try:print(account().ltp("NSE:INFY"))
+  File "C:\Users\apakala\Anaconda3\lib\site-packages\kiteconnect\connect.py", line 595, in ltp
+    return self._get("market.quote.ltp", {"i": ins})
+  File "C:\Users\apakala\Anaconda3\lib\site-packages\kiteconnect\connect.py", line 817, in _get
+    return self._request(route, "GET", params)
+  File "C:\Users\apakala\Anaconda3\lib\site-packages\kiteconnect\connect.py", line 886, in _request
+    raise exp(data["message"], code=r.status_code)
+kiteconnect.exceptions.InputException: Invalid `api_key` or `access_token`.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\apakala\Anaconda3\lib\site-packages\urllib3\connection.py", line 157, in _new_conn
+    (self._dns_host, self.port), self.timeout, **extra_kw
+  File "C:\Users\apakala\Anaconda3\lib\site-packages\urllib3\util\connection.py", line 84, in create_connection
+    raise err
+  File "C:\Users\apakala\Anaconda3\lib\site-packages\urllib3\util\connection.py", line 74, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [WinError 10061] No connection could be made because the target machine actively refused it
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\apakala\Anaconda3\lib\site-packages\urllib3\connectionpool.py", line 672, in urlopen
+    chunked=chunked,
+  File "C:\Users\apakala\Anaconda3\lib\site-packages\urllib3\connectionpool.py", line 376, in _make_request
+    self._validate_conn(conn)
+  File "C:\Users\apakala\Anaconda3\lib\site-packages\urllib3\connectionpool.py", line 994, in _validate_conn
+    conn.connect()
+  File "C:\Users\apakala\Anaconda3\lib\site-packages\urllib3\connection.py", line 300, in connect
+    conn = self._new_conn()
+  File "C:\Users\apakala\Anaconda3\lib\site-packages\urllib3\connection.py", line 169, in _new_conn
+    self, "Failed to establish a new connection: %s" % e
+urllib3.exceptions.NewConnectionError: <urllib3.connection.VerifiedHTTPSConnection object at 0x000002034F254288>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\apakala\Anaconda3\lib\site-packages\requests\adapters.py", line 449, in send
+    timeout=timeout
+  File "C:\Users\apakala\Anaconda3\lib\site-packages\urllib3\connectionpool.py", line 720, in urlopen
+    method, url, error=e, _pool=self, _stacktrace=sys.exc_info()[2]
+  File "C:\Users\apakala\Anaconda3\lib\site-packages\urllib3\util\retry.py", line 436, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='127.0.0.1', port=443): Max retries exceeded with url: /?request_token=ua6567J6Avb8LQzjiDuycYlNIWn5jGWW&action=login&status=success (Caused by NewConnectionError('<urllib3.connection.VerifiedHTTPSConnection object at 0x000002034F254288>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "login_test.py", line 26, in kiteLogin
+    reqToken = sesh2.get("https://kite.trade/connect/login?api_key="+api_key)
+  File "C:\Users\apakala\Anaconda3\lib\site-packages\requests\sessions.py", line 546, in get
+    return self.request('GET', url, **kwargs)
+  File "C:\Users\apakala\Anaconda3\lib\site-packages\requests\sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "C:\Users\apakala\Anaconda3\lib\site-packages\requests\sessions.py", line 668, in send
+    history = [resp for resp in gen] if allow_redirects else []
+  File "C:\Users\apakala\Anaconda3\lib\site-packages\requests\sessions.py", line 668, in <listcomp>
+    history = [resp for resp in gen] if allow_redirects else []
+  File "C:\Users\apakala\Anaconda3\lib\site-packages\requests\sessions.py", line 247, in resolve_redirects
+    **adapter_kwargs
+  File "C:\Users\apakala\Anaconda3\lib\site-packages\requests\sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "C:\Users\apakala\Anaconda3\lib\site-packages\requests\adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='127.0.0.1', port=443): Max retries exceeded with url: /?request_token=ua6567J6Avb8LQzjiDuycYlNIWn5jGWW&action=login&status=success (Caused by NewConnectionError('<urllib3.connection.VerifiedHTTPSConnection object at 0x000002034F254288>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "login_test.py", line 62, in <module>
+    except:login()
+  File "login_test.py", line 53, in login
+    request_token = kiteLogin()
+  File "login_test.py", line 32, in kiteLogin
+    logging.info("Exception: {}".format(e.message))
+AttributeError: 'ConnectionError' object has no attribute 'message'
